@@ -1,0 +1,5 @@
+---
+- name: remove all project data from disk
+  file:
+    path: "{{ project_dir }}"
+    state: absent

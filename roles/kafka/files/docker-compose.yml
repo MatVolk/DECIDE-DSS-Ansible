@@ -1,0 +1,73 @@
+version: "3.3"
+services:
+  kafka1:
+    image: ashraful/kafka-base:0.1
+    restart: on-failure
+    hostname: kafka1
+    ports:
+      - 29092:29092
+      - 29094:29094
+    expose:
+      - "29092"
+      - "29094"
+    environment:
+      KAFKA_PORT: 29092
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2182,zoo2:2181,zoo3:2181"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:29092,OUTSIDE://:29094
+      KAFKA_LISTENERS: INSIDE://:29092,OUTSIDE://:29094
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+    networks:
+      - master_net
+    volumes:
+      - vkafka1:/kafka
+  kafka2:
+    image: ashraful/kafka-base:0.1
+    restart: on-failure
+    hostname: kafka2
+    ports:
+      - 19092:19092
+      - 19094:19094
+    expose:
+      - "19092"
+      - "19094"
+    environment:
+      KAFKA_PORT: 19092
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181,zoo2:2181,zoo3:2181"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:19092,OUTSIDE://:19094
+      KAFKA_LISTENERS: INSIDE://:19092,OUTSIDE://:19094
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+    networks:
+      - master_net
+    volumes:
+      - vkafka2:/kafka
+  kafka3:
+    image: ashraful/kafka-base:0.1
+    restart: on-failure
+    hostname: kafka3
+    ports:
+      - 39094:39094
+      - 39092:39092
+    expose:
+      - "39092"
+      - "39094"
+    environment:
+      KAFKA_PORT: 39092
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181,zoo2:2181,zoo3:2181"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:39092,OUTSIDE://:39094
+      KAFKA_LISTENERS: INSIDE://:39092,OUTSIDE://:39094
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+    networks:
+      - master_net
+    volumes:
+      - vkafka3:/kafka
+networks:
+  master_net:
+    external: true
+    driver: overlay
+volumes:
+  vkafka1:
+  vkafka2:
+  vkafka3:

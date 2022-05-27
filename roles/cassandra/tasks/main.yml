@@ -1,0 +1,15 @@
+---
+- name: prepare project direcotry and files
+  copy:
+    src: '{{role_path}}/files/'
+    dest: '{{project_dir}}/cassandra'
+
+- name: remove existing cluster if any
+  docker_compose:
+    project_src: "{{project_dir}}/cassandra"
+    state: absent
+    remove_volumes: yes
+
+- name: create new cluster
+  docker_compose:
+    project_src: "{{project_dir}}/cassandra"

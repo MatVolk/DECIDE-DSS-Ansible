@@ -1,0 +1,15 @@
+---
+- name: copy project files to remote host
+  copy:
+    src: '{{role_path}}/files/'
+    dest: '{{project_dir}}/elasticSearch'
+
+- name: remove existing cluster
+  docker_compose:
+    project_src: '{{project_dir}}/elasticSearch'
+    state: absent
+
+- name: create new cluster
+  docker_compose:
+    project_src: '{{project_dir}}/elasticSearch'
+    state: present

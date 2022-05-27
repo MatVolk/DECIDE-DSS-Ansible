@@ -1,0 +1,27 @@
+---
+- name: copy project files to remote host
+  copy:
+    src: '{{role_path}}/files/'
+    dest: '{{project_dir}}/kafka'
+
+- name: remove any available cluster
+  docker_compose:
+    project_src: '{{project_dir}}/kafka'
+    state: absent
+    remove_images: all
+    remove_volumes: yes
+
+- name: create new cluster
+  docker_compose:
+    project_src: '{{project_dir}}/kafka'
+    recreate: always
+    state: present
+
+- name: insert kafka into hosts file for external operations
+  become: yes
+  lineinfile:
+    path: "/etc/hosts"
+    line: "127.0.0.1 kafka{{item}}"
+    regexp: '^127\.0\.0\.1 kafka\d+$'
+    state: present
+  with_sequence: count=3

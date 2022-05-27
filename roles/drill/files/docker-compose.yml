@@ -1,0 +1,7 @@
+version: "3.8"        # a more current version
+services:
+  drill:
+    image: apache/drill:latest
+    ports:
+      - "8047:8047"
+    stdin_open: true

@@ -1,0 +1,32 @@
+version: "3.4"
+services:
+  processor1:
+    image: ashraful/processor:0.12
+    restart: on-failure
+    hostname: processor1
+    environment:
+      KAFKA_SERVERS: kafka1:29092,kafka2:19092,kafka3:39092
+      KAFKA_GROUP_ID: group1
+      KAFKA_TOPICS: greentaxirides
+      CASSANDRA_SERVERS: cassandra1
+      CASSANDRA_KEYSPACE: taxis
+      CASSANDRA_DATABASE: green_rides_2017
+    networks:
+      - master_net
+  processor2:
+    image: ashraful/processor:0.12
+    restart: on-failure
+    hostname: processor2
+    environment:
+      KAFKA_SERVERS: kafka1:29092,kafka2:19092,kafka3:39092
+      KAFKA_GROUP_ID: group1
+      KAFKA_TOPICS: greentaxirides
+      CASSANDRA_SERVERS: cassandra1
+      CASSANDRA_KEYSPACE: taxis
+      CASSANDRA_DATABASE: green_rides_2017
+    networks:
+      - master_net
+networks:
+  master_net:
+    external: true
+    driver: overlay

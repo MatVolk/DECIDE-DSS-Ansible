@@ -1,0 +1,24 @@
+# creating couchbase docker compose files
+# define couchbase 1
+couchbase1:
+# get the image from the couchbase/server
+  image: couchbase/server
+  volumes:
+    - ~/couchbase/node1:/opt/couchbase/var
+# define couchbase 2
+couchbase2:
+# get couchbase image for couchbase 2
+  image: couchbase/server
+  volumes:
+    - ~/couchbase/node2:/opt/couchbase/var
+# define couchbase 3 and retrieve its image
+couchbase3:
+  image: couchbase/server
+  volumes:
+    - ~/couchbase/node3:/opt/couchbase/var
+# define our application ports
+  ports:
+    - 8091:8091
+    - 8092:8092 
+    - 8093:8093 
+    - 11210:11210

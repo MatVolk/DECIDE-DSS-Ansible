@@ -1,0 +1,6 @@
+---
+- name: install kafkacat package from ubuntu repositories(also updated)
+  become: yes
+  apt:
+    name: kafkacat
+    update_cache: yes

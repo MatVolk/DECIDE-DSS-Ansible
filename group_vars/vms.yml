@@ -1,0 +1,4 @@
+---
+network_name: "master_net"
+data_dir: "~/dataset"
+project_dir: "~/projects"

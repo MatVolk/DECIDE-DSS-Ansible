@@ -1,0 +1,6 @@
+---
+- name: remove existing cluster
+  docker_compose:
+    project_src: "{{project_dir}}/cassandra"
+    state: absent
+    remove_volumes: yes

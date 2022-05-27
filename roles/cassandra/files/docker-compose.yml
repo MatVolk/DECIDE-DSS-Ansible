@@ -1,0 +1,56 @@
+version: "3.3"
+services:
+  cassandra1:
+    image: cassandra:3.11.8
+    restart: on-failure
+    hostname: cassandra1
+    environment:
+      CASSANDRA_SEEDS: cassandra1
+      CASSANDRA_CLUSTER_NAME: cassandra-test
+    networks:
+      - master_net
+    volumes:
+      - cassandra1:/var/lib/cassandra
+    expose:
+      - 7000
+      - 7001
+      - 7199
+      - 9042
+      - 9160
+    ports:
+      - 9042:9042
+    ulimits:
+      memlock: -1
+      nproc: 32768
+      nofile: 100000
+  cassandra2:
+    image: cassandra:3.11.8
+    restart: on-failure
+    hostname: cassandra2
+    command: bash -c 'sleep 60 && /docker-entrypoint.sh cassandra -f'
+    environment:
+      CASSANDRA_SEEDS: cassandra1
+      CASSANDRA_CLUSTER_NAME: cassandra-test
+    volumes:
+      - cassandra2:/var/lib/cassandra
+    depends_on:
+      - cassandra1
+    networks:
+      - master_net
+    expose:
+      - 7000
+      - 7001
+      - 7199
+      - 9042
+      - 9160
+    ulimits:
+      memlock: -1
+      nproc: 32768
+      nofile: 100000
+networks:
+  master_net:
+    external: true
+    driver: overlay
+volumes:
+  cassandra1:
+  cassandra2:

@@ -1,0 +1,14 @@
+---
+- name: prepare project direcotry and files
+  copy:
+    src: '{{role_path}}/files/'
+    dest: '{{project_dir}}/processors'
+
+- name: remove existing cluster if any
+  docker_compose:
+    project_src: "{{project_dir}}/processors"
+    state: absent
+
+- name: create new cluster
+  docker_compose:
+    project_src: "{{project_dir}}/processors"
